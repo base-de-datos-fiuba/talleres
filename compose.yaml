@@ -1,0 +1,32 @@
+services:
+  neo4j:
+    image: neo4j:5
+    container_name: worldcup_neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_AUTH=neo4j/password
+      - NEO4J_server_memory_heap_initial__size=512m
+      - NEO4J_server_memory_heap_max__size=16G
+    volumes:
+      - neo4j_data:/data
+      - ./init.cypher:/tmp/init.cypher:ro
+    post_start:
+      - command: >
+          bash -c "
+          if [ -f /data/.initialized ]; then
+            echo 'Database already initialized. Skipping script.';
+            exit 0;
+          fi;
+          echo 'Waiting for Neo4j to accept connections...';
+          while ! cypher-shell -u neo4j -p password 'RETURN 1' &> /dev/null; do
+            sleep 3;
+          done;
+          echo 'Database is ready! Executing initialization script...';
+          cypher-shell -u neo4j -p password -f /tmp/init.cypher;
+          touch /data/.initialized;
+          echo 'Data initialization complete!';
+          "
+volumes:
+  neo4j_data:
