@@ -1,5 +1,8 @@
 # Taller: Neo4J
 
+**IMPORTANTE**: Se cuenta con un dataset que se va a utilizar en la clase, el mismo se encuentra disponible en [este repositorio](https://github.com/base-de-datos-fiuba/dbs-neo4j) (directorio `01-world-cup`).
+
+
 1. Muestre en orden alfabético el nombre, apellido y posición de los primeros 10 jugadores cuyo apellido (`last_name`) sea "Fernández" (Obs: "Fernández" con tilde).
 
 2. Encuentre todas las finales de la base de datos. Muestre la fecha del partido, los participantes y el resultado final.
